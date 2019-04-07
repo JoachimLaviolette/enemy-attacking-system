@@ -10,6 +10,14 @@ public class Player : Entity
     // Const
     public static float TOTAL_HEALTH = 30f;
 
+    // Called every frame to update player model
+    private void Update()
+    {
+        this.HandleMovements();
+        this.HandleActions();
+    }
+
+    // Set up player properties
     private void Start()
     {
         this.mHealth = TOTAL_HEALTH;
@@ -23,25 +31,25 @@ public class Player : Entity
         float moveY = 0f;
 
         // up
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.Z))
         {
             moveY += 1f;
         }
 
         // down
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.S))
         {
             moveY -= 1f;
         }
 
         // left
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.Q))
         {
             moveX -= 1f;
         }
 
         // right
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.D))
         {
             moveX += 1f;
         }
@@ -51,6 +59,23 @@ public class Player : Entity
         Vector3 moveDir = new Vector3(moveX, moveY).normalized;
         this.lastMoveDir = moveDir;
         transform.position += moveDir * this.mSpeed * Time.deltaTime;
+    }
+
+    // Handle player's actions
+    private void HandleActions()
+    {
+        // If mouse's left button is pressed
+        if (Input.GetMouseButtonDown(0))
+        {
+            // Check if the mouse position points an enemy
+            Enemy enemy = Enemy.IsEnemyAt(Utils.GetWorldPosition((Input.mousePosition)));
+
+            if (enemy)
+            {
+                Debug.Log("Enemy found! About to damage it!");
+                enemy.Damage(5f);
+            }
+        }
     }
 
     // Get the score of the player
@@ -69,30 +94,5 @@ public class Player : Entity
     public void SetScore(int score)
     {
         this.mScore = score;
-    }
-
-    // Damage the player of a certain amount
-    public void Damage(float damages)
-    {
-        this.mHealth -= damages;
-        Debug.Log("Player lost: " + damages + " HP");
-        Debug.Log("Current health: " + this.mHealth + " HP");
-
-        // If the player has no more health, kill him
-        if (this.mHealth <= 0f)
-        {
-            this.Kill();
-        }
-    }
-
-    // Kill the player
-    private void Kill()
-    {
-
-    }
-
-    public bool IsAlive()
-    {
-        return this.mHealth >= 0f;
     }
 }

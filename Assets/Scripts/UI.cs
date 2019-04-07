@@ -51,7 +51,6 @@ public class UI : MonoBehaviour
         // 0-6 HP sprite
         if (currentPlayerHealth <= 0f)
         {
-            Debug.Log("[UI] Print [0-6] health");
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_0);
 
             return;
@@ -60,7 +59,6 @@ public class UI : MonoBehaviour
         // 1-6 HP sprite
         if (currentPlayerHealth <= ((float)((1f / 6f) * Player.TOTAL_HEALTH)))
         {
-            Debug.Log("[UI] Print [1-6] health");
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_1);
 
             return;
@@ -69,7 +67,6 @@ public class UI : MonoBehaviour
         // 2-6 HP sprite
         if (currentPlayerHealth <= ((float)((2f / 6f) * Player.TOTAL_HEALTH)))
         {
-            Debug.Log("[UI] Print [2-6] health");
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_2);
 
             return;
@@ -78,7 +75,6 @@ public class UI : MonoBehaviour
         // 3-6 HP sprite
         if (currentPlayerHealth <= ((float)((3f / 6f) * Player.TOTAL_HEALTH)))
         {
-            Debug.Log("[UI] Print [3-6] health");
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_3);
 
             return;
@@ -87,7 +83,6 @@ public class UI : MonoBehaviour
         // 4-6 HP sprite
         if (currentPlayerHealth <= ((float)((4f / 6f) * Player.TOTAL_HEALTH)))
         {
-            Debug.Log("[UI] Print [4-6] health");
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_4);
 
             return;
@@ -96,7 +91,6 @@ public class UI : MonoBehaviour
         // 5-6 HP sprite
         if (currentPlayerHealth <= ((float)((5f / 6f) * Player.TOTAL_HEALTH)))
         {
-            Debug.Log("[UI] Print [5-6] health");
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_5);
 
             return;
@@ -104,7 +98,6 @@ public class UI : MonoBehaviour
 
         // If player's health > 5/6 * TOTAL_HEALTH
         // Full HP sprite
-        Debug.Log("[UI] Print [Full] health");
         this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_FULL);
     }
 }
