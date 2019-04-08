@@ -10,7 +10,7 @@ public class GameAssets : MonoBehaviour
     public EnemyBlue pf_EnemyBlue;
     public EnemyGreen pf_EnemyGreen;
     public EnemyRed pf_EnemyRed;
-
+    public Particle pf_Particle;
     public Sprite[] sprite_Health;
 
     private void Awake()
@@ -46,6 +46,11 @@ public class GameAssets : MonoBehaviour
     public EnemyRed GetEnemyRed()
     {
         return this.pf_EnemyRed;
+    }
+
+    public Particle GetParticle()
+    {
+        return this.pf_Particle;
     }
 
     public Sprite[] GetHealthSprites()

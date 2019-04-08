@@ -72,10 +72,23 @@ public class Player : Entity
 
             if (enemy)
             {
-                Debug.Log("Enemy found! About to damage it!");
                 enemy.Damage(5f);
             }
         }
+
+        // If space bar is pressed
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Launch a new particle
+            this.LaunchParticle();
+        }
+    }
+
+    // Launch a particle in the direction pointed by the mouse cursor
+    private void LaunchParticle()
+    {
+        Vector3 mouseWorldPosition = Utils.GetWorldPosition(Input.mousePosition);
+        Particle.Create(mouseWorldPosition);
     }
 
     // Get the score of the player

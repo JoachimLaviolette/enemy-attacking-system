@@ -46,7 +46,7 @@ abstract public class Enemy : Entity
         this.enemyPosition.z = transform.position.z;
     }
 
-    // Basically all enemy entities seek to enter in collision with the player
+    // Handle enemy movements to make it enter in collision with the player
     protected override void HandleMovements()
     {
         this.enemyMoveDir = (this.enemyPosition - transform.position).normalized;
@@ -102,7 +102,7 @@ abstract public class Enemy : Entity
     // Kill the enemy
     protected override void Kill()
     {        
-        // Remove the enemy from the enemy list
+        // Remove the current enemy instance from the enemy list
         enemyList.Remove(this);
 
         base.Kill();
