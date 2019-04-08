@@ -12,13 +12,13 @@ abstract public class Enemy : Entity
     protected Vector3 enemyPosition;
     protected Vector3 enemyMoveDir;
 
-    private Func<Vector3> GetPlayerPositionFunc;
+    protected Func<Vector3> GetPlayerPositionFunc;
     private static List<Enemy> enemyList = new List<Enemy>();
 
     // Called every frame to update the enemy model
     private void Update()
     {
-        UpdatePositionsData();
+        UpdatePositions();
         HandleMovements();
         HandleCollision();
     }
@@ -37,7 +37,7 @@ abstract public class Enemy : Entity
 
     // Update position data attributes
     // Of the enemy and the player
-    public void UpdatePositionsData()
+    private void UpdatePositions()
     {
         this.playerPosition = GetPlayerPositionFunc();
         this.playerPosition.z = transform.position.z;
