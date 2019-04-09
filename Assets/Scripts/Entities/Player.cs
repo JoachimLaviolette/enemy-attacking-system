@@ -6,10 +6,18 @@ public class Player : Entity
 { 
     // Player score
     private int mScore;
+    // Player sprite renderer
     private SpriteRenderer mSpriteRenderer;
+    // Canon munitions
+    private int mCanonMunitions;
+
+    // Static
+    private static float startTime_Canon = 1f;
+    private static float reloadTime_Canon = 3f;
 
     // Const
     public static float TOTAL_HEALTH = 30f;
+    private static int MAX_PARTICLE_CANON_CAPACITY = 5;
     private const int PLAYER_IDLE = 0;
     private const int PLAYER_MOVING = 1;
 
@@ -30,6 +38,14 @@ public class Player : Entity
     {
         this.mHealth = TOTAL_HEALTH;
         this.mSpeed = 4.5f;
+
+        this.InitializeParticleMunitions();
+    }
+
+    // Initialize player's particles munitions
+    private void InitializeParticleMunitions()
+    {
+        this.mCanonMunitions = MAX_PARTICLE_CANON_CAPACITY;
     }
 
     // Handle input movements
@@ -108,10 +124,21 @@ public class Player : Entity
         }
 
         // If space bar is pressed
+        // Try to launch a canon particle
         if (Input.GetKeyDown(KeyCode.Space))
         {
             // Launch one canon particle
             this.LaunchParticle(Particle.PARTICLE_CANON);
+        }
+
+        // If R key is pressed
+        // Reload particles munitions
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (this.mCanonMunitions < MAX_PARTICLE_CANON_CAPACITY)
+            {
+                this.ReloadMunitions();
+            }
         }
     }
 
@@ -135,7 +162,11 @@ public class Player : Entity
         switch (particleType)
         {
             case Particle.PARTICLE_CANON:
-                ParticleCanon.Create(mouseWorldPosition);
+                if (this.mCanonMunitions > 0)
+                {
+                    ParticleCanon.Create(mouseWorldPosition);
+                    this.mCanonMunitions--;
+                }
 
                 return;
             default:
@@ -143,6 +174,25 @@ public class Player : Entity
 
                 return;
         }
+    }
+
+    // Reload player's particles munitions
+    private void ReloadMunitions()
+    {
+        InvokeRepeating("ReloadParticleCanon", startTime_Canon, reloadTime_Canon);
+    }
+
+    // Reload player's canon munitions
+    private void ReloadParticleCanon()
+    {
+        if (this.mCanonMunitions < MAX_PARTICLE_CANON_CAPACITY)
+        {
+            this.mCanonMunitions++;
+
+            return;
+        }
+
+        CancelInvoke();
     }
 
     // Get the score of the player
@@ -155,6 +205,12 @@ public class Player : Entity
     public float GetHealth()
     {
         return this.mHealth;
+    }
+
+    // Get the amount of particle canon munitions of the player
+    public int GetParticleCanonMunitions()
+    {
+        return this.mCanonMunitions;
     }
 
     // Set the score of the player

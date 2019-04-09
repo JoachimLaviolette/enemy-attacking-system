@@ -7,6 +7,7 @@ public class ParticleCanon : Particle
     // Set up particle canon properties
     private void Start()
     {
+        this.mSpeed = 2f;
         this.mDamages = 45f;
     }
 

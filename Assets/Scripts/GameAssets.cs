@@ -11,8 +11,7 @@ public class GameAssets : MonoBehaviour
     public EnemyGreen pf_EnemyGreen;
     public EnemyRed pf_EnemyRed;
     public Particle pf_Particle, pf_Particle_Canon;
-    public Sprite[] sprite_Player;
-    public Sprite[] sprite_Health;
+    public Sprite[] sprite_Player, sprite_Health, sprite_ParticleCanon;
 
     private void Awake()
     {
@@ -78,5 +77,10 @@ public class GameAssets : MonoBehaviour
     public Sprite GetHealthSprite(int healthLevel)
     {
         return this.sprite_Health[healthLevel];
+    }
+
+    public Sprite GetParticleCanonSprite(int particleCanonAmount)
+    {
+        return this.sprite_ParticleCanon[particleCanonAmount];
     }
 }
