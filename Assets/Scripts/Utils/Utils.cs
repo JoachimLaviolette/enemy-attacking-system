@@ -19,6 +19,17 @@ public class Utils : MonoBehaviour
         return Camera.main.ScreenToWorldPoint(position);
     }
 
+    // Return world space coordinates
+    public static Vector3 GetScreenPosition(Vector3 position)
+    {
+        return Camera.main.WorldToScreenPoint(position);
+    }
+
+    /*public static bool IsOffTheScreen(Vector3 objectPosition)
+    {
+        return true;
+    }*/
+
     // Return the size of the sprite of the game object
     // In world space coordinates
     public static Vector3 GetSpriteSize(GameObject gameObject)

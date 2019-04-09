@@ -67,13 +67,11 @@ public class Player : Entity
         // If mouse's left button is pressed
         if (Input.GetMouseButtonDown(0))
         {
-            // Check if the mouse position points an enemy
-            Enemy enemy = Enemy.IsEnemyAt(Utils.GetWorldPosition((Input.mousePosition)));
+            // Attack the pointed enemy
+            // this.AttackEnemy();
 
-            if (enemy)
-            {
-                enemy.Damage(5f);
-            }
+            // Launch a new particle
+            this.LaunchParticle();
         }
 
         // If space bar is pressed
@@ -81,6 +79,18 @@ public class Player : Entity
         {
             // Launch a new particle
             this.LaunchParticle();
+        }
+    }
+
+    // Attack the pointed enemy (if any)
+    private void AttackEnemy()
+    {
+        // Check if the mouse position points an enemy
+        Enemy enemy = Enemy.IsEnemyAt(Utils.GetWorldPosition((Input.mousePosition)));
+
+        if (enemy)
+        {
+            enemy.Damage(5f);
         }
     }
 
