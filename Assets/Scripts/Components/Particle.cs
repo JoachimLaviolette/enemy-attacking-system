@@ -27,20 +27,16 @@ public class Particle : MonoBehaviour
         this.mTargetPosition = targetPosition;
     }
 
+    // Set the moving direction of the particle
+    private void SetMoveDir()
+    {
+        this.particleMoveDir = (this.mTargetPosition - transform.position).normalized;
+    }
+
     // Handle particle movement since it has been instantiated
     protected void HandleMovements()
     {
-        this.particleMoveDir = (this.mTargetPosition).normalized;
-        float distance = Vector3.Distance(this.mTargetPosition, transform.position);
         Vector3 newParticlePosition = transform.position + this.particleMoveDir * this.mSpeed * Time.deltaTime;
-        float distanceAfterMoving = Vector3.Distance(newParticlePosition, this.mTargetPosition);
-
-        if (distanceAfterMoving > distance)
-        {
-            // Overshot the target
-            newParticlePosition = this.mTargetPosition;
-        }
-
         newParticlePosition.z = 0f;
         transform.position = newParticlePosition;
     }
@@ -87,6 +83,7 @@ public class Particle : MonoBehaviour
         Transform particleTransform = Instantiate(mPrefab.transform, GameAssets.mInstance.GetPlayer().GetCurrentPosition(), Quaternion.identity);
         Particle particle = particleTransform.GetComponent<Particle>();
         particle.SetTargetPosition(targetPosition);
+        particle.SetMoveDir();
         Particle.RecordParticle(particle);
 
         return particle;
