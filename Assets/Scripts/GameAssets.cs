@@ -10,7 +10,8 @@ public class GameAssets : MonoBehaviour
     public EnemyBlue pf_EnemyBlue;
     public EnemyGreen pf_EnemyGreen;
     public EnemyRed pf_EnemyRed;
-    public Particle pf_Particle;
+    public Particle pf_Particle, pf_Particle_Canon;
+    public Sprite[] sprite_Player;
     public Sprite[] sprite_Health;
 
     private void Awake()
@@ -48,9 +49,25 @@ public class GameAssets : MonoBehaviour
         return this.pf_EnemyRed;
     }
 
-    public Particle GetParticle()
+    public Particle GetParticle(int particleType)
     {
-        return this.pf_Particle;
+        switch (particleType)
+        {
+            case Particle.PARTICLE_CANON:
+                return this.pf_Particle_Canon;
+            default:
+                return this.pf_Particle;
+        }
+    }
+
+    public Sprite[] GetPlayerSprites()
+    {
+        return this.sprite_Player;
+    }
+
+    public Sprite GetPlayerSprite(int playerState)
+    {
+        return this.sprite_Player[playerState];
     }
 
     public Sprite[] GetHealthSprites()

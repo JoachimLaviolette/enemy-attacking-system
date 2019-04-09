@@ -5,13 +5,12 @@ using UnityEngine;
 public class EnemyRed : Enemy
 {
     // Set up enemy red properties
-    private void Start()
+    protected void Start()
     {
         this.mHealth = 30f;
         this.mSpeed = 2f;
         this.mDamages = 10f;
         this.mReward = 20;
-        SetupPrefab();
     }
 
     // Set up enemy red prefab

@@ -6,9 +6,17 @@ public class Player : Entity
 { 
     // Player score
     private int mScore;
+    private SpriteRenderer mSpriteRenderer;
 
     // Const
     public static float TOTAL_HEALTH = 30f;
+    private const int PLAYER_IDLE = 0;
+    private const int PLAYER_MOVING = 1;
+
+    private void Awake()
+    {
+        this.mSpriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+    }
 
     // Called every frame to update player model
     private void Update()
@@ -54,11 +62,36 @@ public class Player : Entity
             moveX += 1f;
         }
 
-        bool isIdle = moveX == 0 && moveY == 0;
-
         Vector3 moveDir = new Vector3(moveX, moveY).normalized;
         this.lastMoveDir = moveDir;
         transform.position += moveDir * this.mSpeed * Time.deltaTime;
+
+        this.HandleAnimations(moveX == 0 && moveY == 0);
+    }
+    
+    // Handle player animation
+    private void HandleAnimations(bool isIdle)
+    {
+        if (!isIdle)
+        {
+            this.PlayMovingAnimation();
+        }
+        else
+        {
+            this.PlayIdleAnimation();
+        }
+    }
+
+    // Play moving animation
+    private void PlayMovingAnimation()
+    {
+        this.mSpriteRenderer.sprite = GameAssets.mInstance.GetPlayerSprite(PLAYER_MOVING);
+    }
+
+    // Play idle animation
+    private void PlayIdleAnimation()
+    {
+        this.mSpriteRenderer.sprite = GameAssets.mInstance.GetPlayerSprite(PLAYER_IDLE);
     }
 
     // Handle player's actions
@@ -70,15 +103,15 @@ public class Player : Entity
             // Attack the pointed enemy
             // this.AttackEnemy();
 
-            // Launch a new particle
-            this.LaunchParticle();
+            // Launch one basic particle
+            this.LaunchParticle(Particle.PARTICLE_BASIC);
         }
 
         // If space bar is pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            // Launch a new particle
-            this.LaunchParticle();
+            // Launch one canon particle
+            this.LaunchParticle(Particle.PARTICLE_CANON);
         }
     }
 
@@ -95,10 +128,21 @@ public class Player : Entity
     }
 
     // Launch a particle in the direction pointed by the mouse cursor
-    private void LaunchParticle()
+    private void LaunchParticle(int particleType)
     {
         Vector3 mouseWorldPosition = Utils.GetWorldPosition(Input.mousePosition);
-        Particle.Create(mouseWorldPosition);
+
+        switch (particleType)
+        {
+            case Particle.PARTICLE_CANON:
+                ParticleCanon.Create(mouseWorldPosition);
+
+                return;
+            default:
+                Particle.Create(mouseWorldPosition);
+
+                return;
+        }
     }
 
     // Get the score of the player

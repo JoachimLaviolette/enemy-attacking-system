@@ -11,8 +11,12 @@ public class Particle : MonoBehaviour
     protected Vector3 particleMoveDir;
     protected static List<Particle> particleList = new List<Particle>();
 
+    // Const
+    public const int PARTICLE_BASIC = 0;
+    public const int PARTICLE_CANON = 1;
+
     // Called every frame to update the particle model
-    private void Update()
+    protected void Update()
     {
         foreach (Particle p in particleList)
         {
@@ -22,13 +26,13 @@ public class Particle : MonoBehaviour
     }
 
     // Set the target position
-    private void SetTargetPosition(Vector3 targetPosition)
+    protected void SetTargetPosition(Vector3 targetPosition)
     {
         this.mTargetPosition = targetPosition;
     }
 
     // Set the moving direction of the particle
-    private void SetMoveDir()
+    protected void SetMoveDir()
     {
         this.particleMoveDir = (this.mTargetPosition - transform.position).normalized;
     }
@@ -73,7 +77,7 @@ public class Particle : MonoBehaviour
     // Set up particle prefab
     private static void SetupPrefab()
     {
-        mPrefab = GameAssets.mInstance.GetParticle();
+        mPrefab = GameAssets.mInstance.GetParticle(PARTICLE_BASIC);
     }
 
     // Create a new instance of particle
