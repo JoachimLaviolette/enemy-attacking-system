@@ -8,6 +8,7 @@ public class Player : Entity
     private int mScore;
     // Player sprite renderer
     private SpriteRenderer mSpriteRenderer;
+    private bool isReloading;
     // Canon munitions
     private int mCanonMunitions;
 
@@ -38,6 +39,7 @@ public class Player : Entity
     {
         this.mHealth = TOTAL_HEALTH;
         this.mSpeed = 4.5f;
+        this.isReloading = false;
 
         this.InitializeParticleMunitions();
     }
@@ -135,7 +137,8 @@ public class Player : Entity
         // Reload particles munitions
         if (Input.GetKeyDown(KeyCode.R))
         {
-            if (this.mCanonMunitions < MAX_PARTICLE_CANON_CAPACITY)
+            if (this.mCanonMunitions < MAX_PARTICLE_CANON_CAPACITY
+                & !this.isReloading)
             {
                 this.ReloadMunitions();
             }
@@ -166,6 +169,7 @@ public class Player : Entity
                 {
                     ParticleCanon.Create(mouseWorldPosition);
                     this.mCanonMunitions--;
+                    this.CancelReloading();
                 }
 
                 return;
@@ -187,11 +191,19 @@ public class Player : Entity
     {
         if (this.mCanonMunitions < MAX_PARTICLE_CANON_CAPACITY)
         {
+            this.isReloading = true;
             this.mCanonMunitions++;
 
             return;
         }
 
+        this.CancelReloading();
+    }
+
+    // Cancel current reloading
+    private void CancelReloading()
+    { 
+        this.isReloading = false;
         CancelInvoke();
     }
 

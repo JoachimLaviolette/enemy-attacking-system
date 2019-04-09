@@ -4,8 +4,9 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Score
-  - Health
+  - UIHealth
+  - UIScore
+  - UIParticleCanon
   layers:
   - Default
   - TransparentFX
