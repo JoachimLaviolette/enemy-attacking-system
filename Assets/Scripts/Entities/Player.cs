@@ -6,6 +6,8 @@ public class Player : Entity
 { 
     // Player score
     private int mScore;
+    // Player armor
+    private float mArmor;
     // Player sprite renderer
     private SpriteRenderer mSpriteRenderer;
     private bool isReloading;
@@ -18,6 +20,7 @@ public class Player : Entity
 
     // Const
     public static float TOTAL_HEALTH = 30f;
+    public static float TOTAL_ARMOR = 50f;
     private static int MAX_PARTICLE_CANON_CAPACITY = 5;
     private const int PLAYER_IDLE = 0;
     private const int PLAYER_MOVING = 1;
@@ -38,6 +41,7 @@ public class Player : Entity
     private void Start()
     {
         this.mHealth = TOTAL_HEALTH;
+        this.mArmor = 0f;
         this.mSpeed = 4.5f;
         this.isReloading = false;
 
@@ -145,6 +149,23 @@ public class Player : Entity
         }
     }
 
+    // Damage the player
+    // Override the super method to take in account the armor system
+    public override void Damage(float damages)
+    {
+        // If the player has an armor
+        // Damage his armor
+        if (this.mArmor > 0f)
+        {
+            this.mArmor -= damages;
+
+            return;
+        }
+
+        // Otherwise damage the player
+        base.Damage(damages);
+    }
+
     // Attack the pointed enemy (if any)
     private void AttackEnemy()
     {
@@ -207,6 +228,27 @@ public class Player : Entity
         CancelInvoke();
     }
 
+    // Check if there is the player at the target position
+    public static Player IsPlayerAt(Vector3 targetPosition)
+    {
+        Vector3 newTargetPosition = targetPosition;
+        newTargetPosition.z = 0f;
+        float maxRange = Utils.GetSpriteSize(GameAssets.mInstance.GetPlayer().gameObject).x / 2f;
+        float distance = Vector3.Distance(newTargetPosition, GameAssets.mInstance.GetPlayer().GetCurrentPosition());
+
+        Debug.Log("dist = " + distance);
+        Debug.Log("maxrange = " + maxRange);
+
+        if (distance <= maxRange)
+        {
+            Debug.Log("Returning Player!");
+            return GameAssets.mInstance.GetPlayer();
+        }
+
+        Debug.Log("No Player...");
+        return null;
+    }
+
     // Get the score of the player
     public int GetScore()
     {
@@ -217,6 +259,34 @@ public class Player : Entity
     public float GetHealth()
     {
         return this.mHealth;
+    }
+
+    // Add a certain amount of health to the player
+    public void AddHealth(float health)
+    {
+        this.mHealth += health;
+
+        if (this.mHealth > TOTAL_HEALTH)
+        {
+            this.mHealth = TOTAL_HEALTH;
+        }
+    }
+
+    // Get the armor of the player
+    public float GetArmor()
+    {
+        return this.mArmor;
+    }
+
+    // Add a certain amount of armor to the player
+    public void AddArmor(float armor)
+    {
+        this.mArmor += armor;
+
+        if (this.mArmor > TOTAL_ARMOR)
+        {
+            this.mArmor = TOTAL_ARMOR;
+        }
     }
 
     // Get the amount of particle canon munitions of the player

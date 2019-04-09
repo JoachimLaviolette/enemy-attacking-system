@@ -7,7 +7,7 @@ public class Particle : MonoBehaviour
     protected static Particle mPrefab;
     protected Vector3 mTargetPosition;
     protected float mDamages = 5f;
-    protected float mSpeed = 4f;
+    protected float mSpeed = 12f;
     protected Vector3 particleMoveDir;
     protected static List<Particle> particleList = new List<Particle>();
 
@@ -18,10 +18,10 @@ public class Particle : MonoBehaviour
     // Called every frame to update the particle model
     protected void Update()
     {
-        foreach (Particle p in particleList)
+        if (particleList.IndexOf(this) >= 0)
         {
-            p.HandleMovements();
-            p.HandleCollision();
+            this.HandleMovements();
+            this.HandleCollisions();
         }
     }
 
@@ -40,9 +40,24 @@ public class Particle : MonoBehaviour
     // Handle particle movement since it has been instantiated
     protected void HandleMovements()
     {
-        Vector3 newParticlePosition = transform.position + this.particleMoveDir * this.mSpeed * Time.deltaTime;
-        newParticlePosition.z = 0f;
-        transform.position = newParticlePosition;
+        float distance = Vector3.Distance(this.mTargetPosition, transform.position);
+
+        if (distance > 0f)
+        {
+            Vector3 newParticlePosition = transform.position + this.particleMoveDir * this.mSpeed * Time.deltaTime;
+            float distanceAfterMoving = Vector3.Distance(newParticlePosition, this.mTargetPosition);
+
+            if (distanceAfterMoving > distance)
+            {
+                // Overshot the target
+                newParticlePosition = this.mTargetPosition;
+            }
+
+            newParticlePosition.z = 0f;
+            transform.position = newParticlePosition;
+
+            return;
+        }
     }
 
     // Automatically destroy the particle when off the screen
@@ -52,7 +67,7 @@ public class Particle : MonoBehaviour
     }
 
     // Handle when the particle enters in collision with the enemy
-    protected void HandleCollision()
+    protected void HandleCollisions()
     {
         // Check if the particle position points an enemy
         Enemy enemy = Enemy.IsEnemyAt(transform.position);
@@ -67,7 +82,7 @@ public class Particle : MonoBehaviour
     // Destroy the particle
     protected void Destroy()
     {
-        // Remove the current particle instance from the particle list
+        // Remove the current particle instance from the particles list
         particleList.Remove(this);
 
         // Destroy the game object

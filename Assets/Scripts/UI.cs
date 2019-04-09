@@ -7,13 +7,13 @@ public class UI : MonoBehaviour
 {
     // UI Components
     private Text UIScore;
-    private Image UIHealth;
-    private Image UIParticleCanon;
+    private Image UIHealth, UIArmor, UIParticleCanon;
 
     // Models
     private Player mPlayer;
 
     // Const
+    // Health
     private const int HEALTH_LEVEL_0 = 0;
     private const int HEALTH_LEVEL_1 = 1;
     private const int HEALTH_LEVEL_2 = 2;
@@ -22,6 +22,13 @@ public class UI : MonoBehaviour
     private const int HEALTH_LEVEL_5 = 5;
     private const int HEALTH_LEVEL_FULL = 6;
 
+    // Armor
+    private const int ARMOR_LEVEL_0 = 0;
+    private const int ARMOR_LEVEL_1 = 1;
+    private const int ARMOR_LEVEL_2 = 2;
+    private const int ARMOR_LEVEL_FULL = 3;
+
+    // Particle canon
     private const int PARTICLE_CANON_AMOUNT_0 = 0;
     private const int PARTICLE_CANON_AMOUNT_1 = 1;
     private const int PARTICLE_CANON_AMOUNT_2 = 2;
@@ -32,6 +39,7 @@ public class UI : MonoBehaviour
     // Tags
     private const string tag_UIScore = "UIScore";
     private const string tag_UIHealth = "UIHealth";
+    private const string tag_UIArmor = "UIArmor";
     private const string tag_UIParticleCanon = "UIParticleCanon";
 
     private void Awake()
@@ -40,6 +48,8 @@ public class UI : MonoBehaviour
         this.UIScore = GameObject.FindGameObjectWithTag(tag_UIScore).GetComponentInChildren<Text>();
         // Get the reference of the UI health element (image)
         this.UIHealth = GameObject.FindGameObjectWithTag(tag_UIHealth).GetComponentInChildren<Image>();
+        // Get the reference of the UI health element (image)
+        this.UIArmor = GameObject.FindGameObjectWithTag(tag_UIArmor).GetComponentInChildren<Image>();
         // Get the reference of the UI particle canon element (image)
         this.UIParticleCanon = GameObject.FindGameObjectWithTag(tag_UIParticleCanon).GetComponentInChildren<Image>();
     }
@@ -53,6 +63,7 @@ public class UI : MonoBehaviour
     {
         Update_UI_Score();
         Update_UI_Health();
+        Update_UI_Armor();
         Update_UI_ParticleCanon();
     }
 
@@ -76,7 +87,7 @@ public class UI : MonoBehaviour
         }
 
         // 1-6 HP sprite
-        if (currentPlayerHealth <= ((float)((1f / 6f) * Player.TOTAL_HEALTH)))
+        if (currentPlayerHealth <= ((float) ((1f / 6f) * Player.TOTAL_HEALTH)))
         {
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_1);
 
@@ -84,7 +95,7 @@ public class UI : MonoBehaviour
         }
 
         // 2-6 HP sprite
-        if (currentPlayerHealth <= ((float)((2f / 6f) * Player.TOTAL_HEALTH)))
+        if (currentPlayerHealth <= ((float) ((2f / 6f) * Player.TOTAL_HEALTH)))
         {
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_2);
 
@@ -92,7 +103,7 @@ public class UI : MonoBehaviour
         }
 
         // 3-6 HP sprite
-        if (currentPlayerHealth <= ((float)((3f / 6f) * Player.TOTAL_HEALTH)))
+        if (currentPlayerHealth <= ((float) ((3f / 6f) * Player.TOTAL_HEALTH)))
         {
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_3);
 
@@ -100,7 +111,7 @@ public class UI : MonoBehaviour
         }
 
         // 4-6 HP sprite
-        if (currentPlayerHealth <= ((float)((4f / 6f) * Player.TOTAL_HEALTH)))
+        if (currentPlayerHealth <= ((float) ((4f / 6f) * Player.TOTAL_HEALTH)))
         {
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_4);
 
@@ -108,7 +119,7 @@ public class UI : MonoBehaviour
         }
 
         // 5-6 HP sprite
-        if (currentPlayerHealth <= ((float)((5f / 6f) * Player.TOTAL_HEALTH)))
+        if (currentPlayerHealth <= ((float) ((5f / 6f) * Player.TOTAL_HEALTH)))
         {
             this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_5);
 
@@ -118,6 +129,40 @@ public class UI : MonoBehaviour
         // If player's health > 5/6 * TOTAL_HEALTH
         // Full HP sprite
         this.UIHealth.sprite = GameAssets.mInstance.GetHealthSprite(HEALTH_LEVEL_FULL);
+    }
+
+    // Each frame update player's armor on screen
+    private void Update_UI_Armor()
+    {
+        float currentPlayerArmor = (float) this.mPlayer.GetArmor();
+
+        // 0-6 HP sprite
+        if (currentPlayerArmor <= 0f)
+        {
+            this.UIArmor.sprite = GameAssets.mInstance.GetArmorSprite(ARMOR_LEVEL_0);
+
+            return;
+        }
+
+        // 1-6 HP sprite
+        if (currentPlayerArmor <= ((float)((1f / 3f) * Player.TOTAL_ARMOR)))
+        {
+            this.UIArmor.sprite = GameAssets.mInstance.GetArmorSprite(ARMOR_LEVEL_1);
+
+            return;
+        }
+
+        // 2-6 HP sprite
+        if (currentPlayerArmor <= ((float)((2f / 3f) * Player.TOTAL_ARMOR)))
+        {
+            this.UIArmor.sprite = GameAssets.mInstance.GetArmorSprite(ARMOR_LEVEL_2);
+
+            return;
+        }
+
+        // If player's armor > 2/3 * TOTAL_ARMOR
+        // Full armor sprite
+        this.UIArmor.sprite = GameAssets.mInstance.GetArmorSprite(ARMOR_LEVEL_FULL);
     }
 
     // Each frame update player's particle canon munitions on screen

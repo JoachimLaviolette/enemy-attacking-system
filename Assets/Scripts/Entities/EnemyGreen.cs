@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyGreen : Enemy
 {
     // Set up enemy green properties
-    private void Start()
+    protected void Start()
     {
         this.mHealth = 20f;
         this.mSpeed = 1.5f;

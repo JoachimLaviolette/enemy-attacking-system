@@ -11,7 +11,6 @@ abstract public class Enemy : Entity
     protected Vector3 playerPosition;
     protected Vector3 enemyPosition;
     protected Vector3 enemyMoveDir;
-
     protected Func<Vector3> GetPlayerPositionFunc;
     protected static List<Enemy> enemyList = new List<Enemy>();
     
@@ -50,7 +49,7 @@ abstract public class Enemy : Entity
     protected override void HandleMovements()
     {
         this.enemyMoveDir = (this.enemyPosition - transform.position).normalized;
-        float distance = Vector3.Distance(this.enemyPosition, transform.position);
+        float distance = Vector3.Distance(this.playerPosition, transform.position);
 
         if (distance > 0f)
         {
@@ -109,7 +108,7 @@ abstract public class Enemy : Entity
     }
 
     // Check if there is an enemy at the target position
-    // Return the enemy targetted if one is found
+    // Return the enemy targeted if one is found
     public static Enemy IsEnemyAt(Vector3 targetPosition)
     {
         Vector3 newTargetPosition = targetPosition;
@@ -141,5 +140,11 @@ abstract public class Enemy : Entity
     public static void RemoveEnemy(Enemy enemy)
     {
         enemyList.Remove(enemy);
+    }
+
+    // Set up the enemy prefab
+    protected static void SetupPrefab()
+    {
+        mPrefab = null;
     }
 }

@@ -13,6 +13,15 @@ public class Utils : MonoBehaviour
         return new Vector3(Random.Range(minInterval, maxInterval), 3f, 0f);
     }
 
+    // Return an random direction for item bonus spawning
+    public static Vector3 GetRandomDirItemBonus()
+    {
+        float minInterval = -.5f;
+        float maxInterval = .5f;
+
+        return new Vector3(Random.Range(minInterval, maxInterval), 3f, 0f);
+    }
+
     // Return world space coordinates
     public static Vector3 GetWorldPosition(Vector3 position)
     {
