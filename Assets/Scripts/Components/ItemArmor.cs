@@ -8,7 +8,7 @@ public class ItemArmor : ItemBonus
     protected override void Start()
     {
         base.Start();
-        this.mReward = 20f;
+        this.mReward = Player.TOTAL_ARMOR / 3f;
     }
 
     // Apply item armor's effect to the player

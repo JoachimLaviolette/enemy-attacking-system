@@ -231,21 +231,17 @@ public class Player : Entity
     // Check if there is the player at the target position
     public static Player IsPlayerAt(Vector3 targetPosition)
     {
+        Player player = GameAssets.mInstance.GetPlayer();
         Vector3 newTargetPosition = targetPosition;
-        newTargetPosition.z = 0f;
-        float maxRange = Utils.GetSpriteSize(GameAssets.mInstance.GetPlayer().gameObject).x / 2f;
-        float distance = Vector3.Distance(newTargetPosition, GameAssets.mInstance.GetPlayer().GetCurrentPosition());
-
-        Debug.Log("dist = " + distance);
-        Debug.Log("maxrange = " + maxRange);
+        newTargetPosition.z = player.GetCurrentPosition().z;
+        float maxRange = Utils.GetSpriteSize(player.gameObject).x / 2f;
+        float distance = Vector3.Distance(player.GetCurrentPosition(), newTargetPosition);
 
         if (distance <= maxRange)
         {
-            Debug.Log("Returning Player!");
-            return GameAssets.mInstance.GetPlayer();
+            return player;
         }
 
-        Debug.Log("No Player...");
         return null;
     }
 

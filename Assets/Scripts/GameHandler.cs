@@ -20,9 +20,12 @@ public class GameHandler : MonoBehaviour
 
     private static float radius = 3f;
 
+    private Player mPlayer;
+
     // Set up game state
     private void Start()
     {
+        this.mPlayer = GameAssets.mInstance.GetPlayer();
         this.SpawnEnemies();
         this.SpawnItems();
     }
@@ -30,7 +33,7 @@ public class GameHandler : MonoBehaviour
     // Set the new target the provided enemy has to follow
     private void SetEnemyTarget(Enemy enemy)
     {
-        enemy.Setup(() => GameAssets.mInstance.GetPlayer().GetCurrentPosition());
+        enemy.Setup(() => this.mPlayer.GetCurrentPosition());
     }
 
     // Call periodic functions to spwan randomly new enemy instances
@@ -45,9 +48,9 @@ public class GameHandler : MonoBehaviour
     // Instantiate an enemy blue randomly
     private void SpawnEnemyBlue()
     {
-        if (GameAssets.mInstance.GetPlayer().IsAlive())
+        if (this.mPlayer.IsAlive())
         {
-            EnemyBlue eBlue = EnemyBlue.Create(GameAssets.mInstance.GetPlayer().GetCurrentPosition() + Utils.GetRandomDir() * radius);
+            EnemyBlue eBlue = EnemyBlue.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius);
             this.SetEnemyTarget(eBlue);
         }
     }
@@ -55,9 +58,9 @@ public class GameHandler : MonoBehaviour
     // Instantiate an enemy green randomly
     private void SpawnEnemyGreen()
     {
-        if (GameAssets.mInstance.GetPlayer().IsAlive())
+        if (this.mPlayer.IsAlive())
         {
-            EnemyGreen eGreen = EnemyGreen.Create(GameAssets.mInstance.GetPlayer().GetCurrentPosition() + Utils.GetRandomDir() * radius);
+            EnemyGreen eGreen = EnemyGreen.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius);
             this.SetEnemyTarget(eGreen);
         }
     }
@@ -65,9 +68,9 @@ public class GameHandler : MonoBehaviour
     // Instantiate an enemy red randomly
     private void SpawnEnemyRed()
     {
-        if (GameAssets.mInstance.GetPlayer().IsAlive())
+        if (this.mPlayer.IsAlive())
         {
-            EnemyRed eRed = EnemyRed.Create(GameAssets.mInstance.GetPlayer().GetCurrentPosition() + Utils.GetRandomDir() * radius);
+            EnemyRed eRed = EnemyRed.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius);
             this.SetEnemyTarget(eRed);
         }
     }
@@ -83,18 +86,18 @@ public class GameHandler : MonoBehaviour
     // Instantiate a health item randomly
     private void SpawnItemHealth()
     {
-        if (GameAssets.mInstance.GetPlayer().IsAlive())
+        if (this.mPlayer.IsAlive())
         {
-            ItemHealth.Create(GameAssets.mInstance.GetPlayer().GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius);
+            ItemHealth.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius);
         }
     }
 
     // Instantiate a armor item randomly
     private void SpawnItemArmor()
     {
-        if (GameAssets.mInstance.GetPlayer().IsAlive())
+        if (this.mPlayer.IsAlive())
         {
-            ItemArmor.Create(GameAssets.mInstance.GetPlayer().GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius);
+            ItemArmor.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius);
         }
     }
 

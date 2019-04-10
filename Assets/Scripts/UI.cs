@@ -136,7 +136,7 @@ public class UI : MonoBehaviour
     {
         float currentPlayerArmor = (float) this.mPlayer.GetArmor();
 
-        // 0-6 HP sprite
+        // 0-3 armor sprite
         if (currentPlayerArmor <= 0f)
         {
             this.UIArmor.sprite = GameAssets.mInstance.GetArmorSprite(ARMOR_LEVEL_0);
@@ -144,16 +144,16 @@ public class UI : MonoBehaviour
             return;
         }
 
-        // 1-6 HP sprite
-        if (currentPlayerArmor <= ((float)((1f / 3f) * Player.TOTAL_ARMOR)))
+        // 1-3 armor sprite
+        if (currentPlayerArmor <= ((float) ((1f / 3f) * Player.TOTAL_ARMOR)))
         {
             this.UIArmor.sprite = GameAssets.mInstance.GetArmorSprite(ARMOR_LEVEL_1);
 
             return;
         }
 
-        // 2-6 HP sprite
-        if (currentPlayerArmor <= ((float)((2f / 3f) * Player.TOTAL_ARMOR)))
+        // 2-3 armor sprite
+        if (currentPlayerArmor <= ((float) ((2f / 3f) * Player.TOTAL_ARMOR)))
         {
             this.UIArmor.sprite = GameAssets.mInstance.GetArmorSprite(ARMOR_LEVEL_2);
 

@@ -12,14 +12,8 @@ abstract public class ItemBonus : Item
     {
         base.Start();
         this.mSpeed = 1f;
-        this.moveDir = new Vector3(0f, -1f, 0f);
-    }
-
-    // Called every frame to update the item bonus
-    protected override void Update()
-    {
-        base.Update();
-        this.HandleCollisions();
+        this.mReward = 0f;
+        this.moveDir = Vector3.down;
     }
 
     // Handle the bonus item movements
