@@ -12,7 +12,7 @@ public class GameAssets : MonoBehaviour
     public EnemyRed pf_EnemyRed;
     public ItemHealth pf_ItemHealth;
     public ItemArmor pf_ItemArmor;
-    public Particle pf_Particle, pf_Particle_Canon;
+    public Particle pf_Particle, pf_Particle_Canon, pf_Particle_Explosion;
     public Sprite[] sprite_Player, sprite_Health, sprite_Armor, sprite_ParticleCanon;
 
     private void Awake()
@@ -66,6 +66,8 @@ public class GameAssets : MonoBehaviour
         {
             case Particle.PARTICLE_CANON:
                 return this.pf_Particle_Canon;
+            case Particle.PARTICLE_EXPLOSION:
+                return this.pf_Particle_Explosion;
             default:
                 return this.pf_Particle;
         }

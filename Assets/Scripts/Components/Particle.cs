@@ -14,14 +14,16 @@ public class Particle : MonoBehaviour
     // Const
     public const int PARTICLE_BASIC = 0;
     public const int PARTICLE_CANON = 1;
+    public const int PARTICLE_EXPLOSION = 2;
 
     // Called every frame to update the particle model
-    protected void Update()
+    protected virtual void Update()
     {
         if (particleList.IndexOf(this) >= 0)
         {
             this.HandleMovements();
             this.HandleCollisions();
+            this.HandleDestroy();
         }
     }
 
@@ -38,7 +40,7 @@ public class Particle : MonoBehaviour
     }
 
     // Handle particle movement since it has been instantiated
-    protected void HandleMovements()
+    protected virtual void HandleMovements()
     {
         float distance = Vector3.Distance(this.mTargetPosition, transform.position);
 
@@ -67,7 +69,7 @@ public class Particle : MonoBehaviour
     }
 
     // Handle when the particle enters in collision with the enemy
-    protected void HandleCollisions()
+    protected virtual void HandleCollisions()
     {
         // Check if the particle position points an enemy
         Enemy enemy = Enemy.IsEnemyAt(transform.position);
@@ -77,6 +79,12 @@ public class Particle : MonoBehaviour
             enemy.Damage(this.mDamages);
             this.Destroy();
         }
+    }
+
+    // Check if the particle has to be destroyed
+    protected virtual void HandleDestroy()
+    {
+        return;
     }
 
     // Destroy the particle

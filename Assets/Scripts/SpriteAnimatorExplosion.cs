@@ -3,27 +3,33 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpriteAnimator : MonoBehaviour
+public class SpriteAnimatorExplosion : SpriteAnimator
 {
-    [SerializeField] protected Sprite[] frames;
-    protected int currentFrame;
-    protected float timer;
+    private int counter = 0;
 
-    protected virtual void Update()
+    // Called every frame to update the current explosion's sprite
+    protected override void Update()
     {
         timer += Time.deltaTime;
 
-        if (timer >= 1f)
+        if (timer >= .01f)
         {
             timer -= .1f;
             this.currentFrame++;
+            this.counter++;
             this.gameObject.GetComponent<SpriteRenderer>().sprite = frames[this.currentFrame];
-            
+
             if (this.currentFrame == this.frames.Length - 1)
             {
                 Array.Reverse(this.frames);
                 this.currentFrame = 0;
             }
         }
+    }
+
+    // Return if the associated particle explosion has to be destroyed or not
+    public bool ToDestroy()
+    {
+        return this.counter >= (this.frames.Length * 4);
     }
 }

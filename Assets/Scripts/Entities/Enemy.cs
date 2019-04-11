@@ -104,7 +104,12 @@ abstract public class Enemy : Entity
         // Remove the current enemy instance from the enemy list
         enemyList.Remove(this);
 
+        Vector3 spawnPosition = this.transform.position;
+
         base.Kill();
+                     
+        // Create an explosion
+        ParticleExplosion.Create(spawnPosition);
     }
 
     // Check if there is an enemy at the target position
@@ -118,7 +123,9 @@ abstract public class Enemy : Entity
         foreach (Enemy enemy in enemyList)
         {
             maxRange = Utils.GetSpriteSize(enemy.gameObject).x / 2f;
-            float distance = Vector3.Distance(newTargetPosition, enemy.GetCurrentPosition());
+            Vector3 enemyPosition = enemy.GetCurrentPosition();
+            enemyPosition.z = newTargetPosition.z;
+            float distance = Vector3.Distance(newTargetPosition, enemyPosition);
 
             if (distance <= maxRange)
             {
