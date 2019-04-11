@@ -88,7 +88,7 @@ public class Player : Entity
         this.lastMoveDir = moveDir;
         transform.position += moveDir * this.mSpeed * Time.deltaTime;
 
-        this.HandleAnimations(moveX == 0 && moveY == 0);
+        //this.HandleAnimations(moveX == 0 && moveY == 0);
     }
     
     // Handle player animation
