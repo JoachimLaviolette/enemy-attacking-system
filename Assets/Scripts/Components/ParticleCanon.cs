@@ -21,7 +21,14 @@ public class ParticleCanon : Particle
     public new static ParticleCanon Create(Vector3 targetPosition)
     {
         SetupPrefab();
-        Transform particleTransform = Instantiate(mPrefab.transform, GameAssets.mInstance.GetPlayer().GetCurrentPosition(), Quaternion.identity);
+
+        Vector3 spawnPosition = Utils.GetSpriteSize(GameAssets.mInstance.GetPlayer().gameObject);
+        spawnPosition.x = 0f;
+        spawnPosition.y /= 2f;
+        spawnPosition.z = 0;
+        spawnPosition += GameAssets.mInstance.GetPlayer().GetCurrentPosition();
+
+        Transform particleTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
         ParticleCanon particle = particleTransform.GetComponent<ParticleCanon>();
         particle.SetTargetPosition(targetPosition);
         particle.SetMoveDir();
