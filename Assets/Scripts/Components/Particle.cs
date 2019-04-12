@@ -6,8 +6,8 @@ public class Particle : MonoBehaviour
 {
     protected static Particle mPrefab;
     protected Vector3 mTargetPosition;
-    protected float mDamages = 5f;
-    protected float mSpeed = 12f;
+    protected int mDamages;
+    protected float mSpeed;
     protected Vector3 particleMoveDir;
     protected static List<Particle> particleList = new List<Particle>();
 
@@ -15,6 +15,15 @@ public class Particle : MonoBehaviour
     public const int PARTICLE_BASIC = 0;
     public const int PARTICLE_CANON = 1;
     public const int PARTICLE_EXPLOSION = 2;
+
+    // Set up particle's properties
+    public void Setup(Vector3 targetPosition)
+    {
+        this.mDamages = Random.Range(3, 10);
+        this.mSpeed = 12f;
+        this.SetTargetPosition(targetPosition);
+        this.SetMoveDir();
+    }
 
     // Called every frame to update the particle model
     protected virtual void Update()
@@ -76,6 +85,9 @@ public class Particle : MonoBehaviour
 
         if (enemy)
         {
+            bool isCritical = false;
+            Utils.ApplyCritical(ref this.mDamages, ref isCritical);
+            DamageNotification.Create(enemy.GetCurrentPosition(), this.mDamages, isCritical);
             enemy.Damage(this.mDamages);
             this.Destroy();
         }
@@ -108,16 +120,10 @@ public class Particle : MonoBehaviour
     {
         SetupPrefab();
 
-        Vector3 spawnPosition = Utils.GetSpriteSize(GameAssets.mInstance.GetPlayer().gameObject);
-        spawnPosition.x = 0f;
-        spawnPosition.y /= 2f;
-        spawnPosition.z = 0;
-        spawnPosition += GameAssets.mInstance.GetPlayer().GetCurrentPosition();
-
+        Vector3 spawnPosition = Utils.GetShootPosition();
         Transform particleTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
         Particle particle = particleTransform.GetComponent<Particle>();
-        particle.SetTargetPosition(targetPosition);
-        particle.SetMoveDir();
+        particle.Setup(targetPosition);
         Particle.RecordParticle(particle);
 
         return particle;

@@ -34,10 +34,17 @@ public class Utils : MonoBehaviour
         return Camera.main.WorldToScreenPoint(position);
     }
 
-    /*public static bool IsOffTheScreen(Vector3 objectPosition)
+    // Get the shooting position according to the player
+    public static Vector3 GetShootPosition()
     {
-        return true;
-    }*/
+        Vector3 shootPosition = Utils.GetSpriteSize(GameAssets.mInstance.GetPlayer().gameObject);
+        shootPosition.x = 0f;
+        shootPosition.y /= 2f;
+        shootPosition.z = 0;
+        shootPosition += GameAssets.mInstance.GetPlayer().GetCurrentPosition();
+
+        return shootPosition;
+    }
 
     // Return the size of the sprite of the game object
     // In world space coordinates
@@ -54,5 +61,30 @@ public class Utils : MonoBehaviour
         worldSize.y *= gameObject.transform.lossyScale.y;
 
         return worldSize;
+    }
+
+    // Return the Color element corresponding to the given hexadecimal string
+    // If any error when trying to convert the html string to color
+    // Return black color by default
+    public static Color GetColorFromString(string colorString)
+    {
+        Color color = Color.black;
+
+        ColorUtility.TryParseHtmlString("#" + colorString, out color);
+
+        return color;
+    }
+
+    // Calculate a critical factor and apply it to the provided damages
+    public static void ApplyCritical(ref int damages, ref bool isCritical)
+    {
+        int criticalFactor = Random.Range(2, 100);
+        isCritical = criticalFactor < 30;
+
+        // If critical,, recomputes the damages
+        if (isCritical)
+        {
+            damages += (criticalFactor / 10) * damages;
+        }
     }
 }

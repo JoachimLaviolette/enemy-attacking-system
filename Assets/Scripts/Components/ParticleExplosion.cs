@@ -15,7 +15,7 @@ public class ParticleExplosion : Particle
     // Set up explosion properties
     private void Start()
     {
-        this.mDamages = 25f;
+        this.mDamages = Random.Range(10, 25);
     }
 
     protected override void HandleMovements() { }
@@ -28,6 +28,9 @@ public class ParticleExplosion : Particle
 
         if (enemy)
         {
+            bool isCritical = false;
+            Utils.ApplyCritical(ref this.mDamages, ref isCritical);
+            DamageNotification.Create(enemy.GetCurrentPosition(), this.mDamages, isCritical);
             enemy.Damage(this.mDamages);
         }
     }

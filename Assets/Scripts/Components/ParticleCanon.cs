@@ -8,7 +8,7 @@ public class ParticleCanon : Particle
     private void Start()
     {
         this.mSpeed = 8f;
-        this.mDamages = 45f;
+        this.mDamages = 45;
     }
 
     // Set up particle canon prefab
@@ -22,16 +22,10 @@ public class ParticleCanon : Particle
     {
         SetupPrefab();
 
-        Vector3 spawnPosition = Utils.GetSpriteSize(GameAssets.mInstance.GetPlayer().gameObject);
-        spawnPosition.x = 0f;
-        spawnPosition.y /= 2f;
-        spawnPosition.z = 0;
-        spawnPosition += GameAssets.mInstance.GetPlayer().GetCurrentPosition();
-
+        Vector3 spawnPosition = Utils.GetShootPosition();
         Transform particleTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
         ParticleCanon particle = particleTransform.GetComponent<ParticleCanon>();
-        particle.SetTargetPosition(targetPosition);
-        particle.SetMoveDir();
+        particle.Setup(targetPosition);
         Particle.RecordParticle(particle);
 
         return particle;

@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1853988774595456873}
   - component: {fileID: 527154095281438022}
+  - component: {fileID: 3526345174440454774}
   m_Layer: 0
-  m_Name: Canon
-  m_TagString: Untagged
+  m_Name: ParticleCanon
+  m_TagString: ParticleCanon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -79,3 +80,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3526345174440454774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3526345174440454773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdbab84a049f8294eb9a4cb8d9b5cf25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

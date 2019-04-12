@@ -12,7 +12,8 @@ public class GameAssets : MonoBehaviour
     public EnemyRed pf_EnemyRed;
     public ItemHealth pf_ItemHealth;
     public ItemArmor pf_ItemArmor;
-    public Particle pf_Particle, pf_Particle_Canon, pf_Particle_Explosion;
+    public Particle pf_Particle, pf_ParticleCanon, pf_ParticleExplosion;
+    public DamageNotification pf_DamageNotification;
     public Sprite[] sprite_Player, sprite_Health, sprite_Armor, sprite_ParticleCanon;
 
     private void Awake()
@@ -65,9 +66,9 @@ public class GameAssets : MonoBehaviour
         switch (particleType)
         {
             case Particle.PARTICLE_CANON:
-                return this.pf_Particle_Canon;
+                return this.pf_ParticleCanon;
             case Particle.PARTICLE_EXPLOSION:
-                return this.pf_Particle_Explosion;
+                return this.pf_ParticleExplosion;
             default:
                 return this.pf_Particle;
         }
@@ -106,5 +107,10 @@ public class GameAssets : MonoBehaviour
     public Sprite GetParticleCanonSprite(int particleCanonAmount)
     {
         return this.sprite_ParticleCanon[particleCanonAmount];
+    }
+
+    public DamageNotification GetDamageNotification()
+    {
+        return this.pf_DamageNotification;
     }
 }
