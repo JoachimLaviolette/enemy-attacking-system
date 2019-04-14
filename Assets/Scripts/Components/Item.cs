@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract public class Item : MonoBehaviour
+abstract public class Item : MonoBehaviour, IDestroyable, IMovable, ICollapsable, IEffectable
 {
     // The speed the item moves at
     protected float mSpeed;
@@ -24,11 +24,8 @@ abstract public class Item : MonoBehaviour
     // Called every frame to update the item model
     protected virtual void Update()
     {
-        if (itemList.IndexOf(this) >= 0)
-        {
-            this.HandleMovements();
-            this.HandleCollisions();
-        }
+        this.HandleMovements();
+        this.HandleCollisions();
     }
 
     // Automatically destroy the iyrm when off the screen
@@ -38,7 +35,7 @@ abstract public class Item : MonoBehaviour
     }
 
     // Destroy the item
-    protected void Destroy()
+    public void Destroy()
     {
         // Remove the current item instance from the items list
         itemList.Remove(this);
@@ -46,7 +43,6 @@ abstract public class Item : MonoBehaviour
         // Destroy the game object
         Destroy(gameObject);
     }
-
 
     // Record a new item instance
     public static void RecordEnemy(Item item)
@@ -62,10 +58,10 @@ abstract public class Item : MonoBehaviour
     }
 
     // Handle the item movements
-    abstract protected void HandleMovements();
+    abstract public void HandleMovements();
 
     // Handle the item collisions
-    abstract protected void HandleCollisions();
+    abstract public void HandleCollisions();
 
     // Apply item effect
     abstract public void ApplyEffect(Player player);

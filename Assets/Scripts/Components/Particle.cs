@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Particle : MonoBehaviour
+public class Particle : MonoBehaviour, IMovable, IDestroyable, ICollapsable
 {
     protected static Particle mPrefab;
     protected Vector3 mTargetPosition;
@@ -28,12 +28,14 @@ public class Particle : MonoBehaviour
     // Called every frame to update the particle model
     protected virtual void Update()
     {
-        if (particleList.IndexOf(this) >= 0)
-        {
-            this.HandleMovements();
-            this.HandleCollisions();
-            this.HandleDestroy();
-        }
+        this.HandleMovements();
+        this.HandleCollisions();
+    }
+
+    // Automatically destroy the particle when off the screen
+    private void OnBecameInvisible()
+    {
+        this.Destroy();
     }
 
     // Set the target position
@@ -49,7 +51,7 @@ public class Particle : MonoBehaviour
     }
 
     // Handle particle movement since it has been instantiated
-    protected virtual void HandleMovements()
+    public void HandleMovements()
     {
         float distance = Vector3.Distance(this.mTargetPosition, transform.position);
 
@@ -71,14 +73,8 @@ public class Particle : MonoBehaviour
         }
     }
 
-    // Automatically destroy the particle when off the screen
-    private void OnBecameInvisible()
-    {
-        this.Destroy();
-    }
-
     // Handle when the particle enters in collision with the enemy
-    protected virtual void HandleCollisions()
+    public virtual void HandleCollisions()
     {
         // Check if the particle position points an enemy
         Enemy enemy = Enemy.IsEnemyAt(transform.position);
@@ -93,20 +89,20 @@ public class Particle : MonoBehaviour
         }
     }
 
-    // Check if the particle has to be destroyed
-    protected virtual void HandleDestroy()
-    {
-        return;
-    }
-
     // Destroy the particle
-    protected void Destroy()
+    public void Destroy()
     {
         // Remove the current particle instance from the particles list
         particleList.Remove(this);
 
         // Destroy the game object
         Destroy(gameObject);
+    }
+
+    // Return the current position of the particle
+    public Vector3 GetCurrentPosition()
+    {
+        return this.transform.position;
     }
 
     // Set up particle prefab
@@ -140,5 +136,50 @@ public class Particle : MonoBehaviour
     public static void RemoveParticle(Particle particle)
     {
         particleList.Remove(particle);
+    }
+
+    // Check if there is a particle at the target position
+    // Return the targeted particle instance if found
+    public static Particle IsParticleAt(Vector3 targetPosition)
+    {
+        Vector3 newTargetPosition = targetPosition;
+        newTargetPosition.z = 0f;
+
+        float maxRange;
+
+        foreach (Particle particle in particleList)
+        {
+            maxRange = Utils.GetSpriteSize(particle.gameObject).x / 2f;
+            Vector3 particlePosition = particle.GetCurrentPosition();
+            particlePosition.z = newTargetPosition.z;
+            float distance = Vector3.Distance(newTargetPosition, particlePosition);
+
+            if (distance <= maxRange)
+            {
+                return particle;
+            }
+        }
+
+        return null;
+    }
+
+    // Check if there is a particle in the provided range
+    public static Particle IsParticleAt(Vector3 targetPosition, float maxRange)
+    {
+        Vector3 newTargetPosition = targetPosition;
+
+        foreach (Particle particle in particleList)
+        {
+            Vector3 particlePosition = particle.GetCurrentPosition();
+            particlePosition.z = newTargetPosition.z = 0f;
+            float distance = Vector3.Distance(newTargetPosition, particlePosition);
+
+            if (distance <= maxRange)
+            {
+                return particle;
+            }
+        }
+
+        return null;
     }
 }

@@ -11,6 +11,7 @@ public class EnemyRed : Enemy
         this.mSpeed = 2f;
         this.mDamages = 10f;
         this.mReward = 20;
+        this.mAI = new AIRed(this);
     }
 
     // Set up enemy red prefab

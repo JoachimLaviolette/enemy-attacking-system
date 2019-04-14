@@ -11,6 +11,7 @@ public class EnemyBlue : Enemy
         this.mSpeed = 1f;
         this.mDamages = 5f;
         this.mReward = 5;
+        this.mAI = new AIBlue(this);
     }
 
     // Set up enemy blue prefab

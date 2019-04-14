@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity
+public class Player : Entity, IMovable
 { 
     // Player score
     private int mScore;
@@ -55,7 +55,7 @@ public class Player : Entity
     }
 
     // Handle input movements
-    protected override void HandleMovements()
+    public void HandleMovements()
     { 
         float moveX = 0f;
         float moveY = 0f;
@@ -249,12 +249,6 @@ public class Player : Entity
     public int GetScore()
     {
         return this.mScore;
-    }
-
-    // Get the health of the player
-    public float GetHealth()
-    {
-        return this.mHealth;
     }
 
     // Add a certain amount of health to the player

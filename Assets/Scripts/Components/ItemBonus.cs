@@ -17,7 +17,7 @@ abstract public class ItemBonus : Item
     }
 
     // Handle the bonus item movements
-    protected override void HandleMovements()
+    public override void HandleMovements()
     {
         Vector3 newItemPosition = transform.position + this.moveDir * this.mSpeed * Time.deltaTime;
         newItemPosition.z = 0f;
@@ -25,7 +25,7 @@ abstract public class ItemBonus : Item
     }
 
     // Handle the bonus item collisions
-    protected override void HandleCollisions()
+    public override void HandleCollisions()
     {
         Player player = Player.IsPlayerAt(transform.position);
 

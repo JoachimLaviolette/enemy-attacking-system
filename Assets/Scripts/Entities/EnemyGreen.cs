@@ -11,7 +11,7 @@ public class EnemyGreen : Enemy
         this.mSpeed = 1.5f;
         this.mDamages = 7.5f;
         this.mReward = 10;
-        SetupPrefab();
+        this.mAI = new AIGreen(this);
     }
 
     // Set up enemy grene prefab

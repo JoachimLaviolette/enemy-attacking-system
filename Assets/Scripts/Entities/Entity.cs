@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour, IDamagable, IDestroyable
 {
     protected Vector3 lastMoveDir;
     protected float mHealth = 0f;
     protected float mSpeed = 0f;
-
-    // Called every frame to update entity model
-    private void Update()
-    {
-        this.HandleMovements();
-    }
-
+    
     // Return the current position of the entity
     public Vector3 GetCurrentPosition()
     {
         return this.transform.position;
+    }
+
+    // Return the speed of the entity
+    public float GetSpeed()
+    {
+        return this.mSpeed;
+    }
+
+    // Return the health of the entity
+    public float GetHealth()
+    {
+        return this.mHealth;
     }
 
     // Damage the entity
@@ -28,12 +34,12 @@ public abstract class Entity : MonoBehaviour
         // If the entity has no more health, kill it
         if (this.mHealth <= 0f)
         {
-            this.Kill();
+            this.Destroy();
         }
     }
 
     // Kill the entity
-    protected virtual void Kill()
+    public virtual void Destroy()
     {
         // Destroy the game object
         Destroy(gameObject);
@@ -44,6 +50,4 @@ public abstract class Entity : MonoBehaviour
     {
         return this.mHealth > 0f;
     }
-
-    abstract protected void HandleMovements();
 }

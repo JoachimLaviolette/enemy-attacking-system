@@ -9,7 +9,8 @@ public class ParticleExplosion : Particle
     // Called every frame to update the explosion model
     protected override void Update()
     {
-        base.Update(); 
+        base.Update();
+        this.HandleDestroy();
     }
 
     // Set up explosion properties
@@ -18,10 +19,8 @@ public class ParticleExplosion : Particle
         this.mDamages = Random.Range(10, 25);
     }
 
-    protected override void HandleMovements() { }
-
     // Damage all the enemies nearby
-    protected override void HandleCollisions()
+    public override void HandleCollisions()
     {
         // Check if there is any enemy nearby
         Enemy enemy = Enemy.IsEnemyAt(transform.position);
@@ -35,8 +34,8 @@ public class ParticleExplosion : Particle
         }
     }
 
-    // Check if the explosion has to be destroyed
-    protected override void HandleDestroy()
+    // Check if the explosion needs to be destroyed
+    protected void HandleDestroy()
     {
         if (this.gameObject.GetComponent<SpriteAnimatorExplosion>().ToDestroy())
         {
@@ -56,6 +55,7 @@ public class ParticleExplosion : Particle
         SetupPrefab();
 
         Transform particleTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
+
         ParticleExplosion particle = particleTransform.GetComponent<ParticleExplosion>();
         Particle.RecordParticle(particle);
 
