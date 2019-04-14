@@ -26,10 +26,19 @@ public class ItemArmor : ItemBonus
     // Instantiate a new item armor at the provided spawn position
     public static ItemArmor Create(Vector3 spawnPosition)
     {
+        Player player = GameAssets.mInstance.GetPlayer();
+
+        if (!player.IsAlive())
+        {
+            return null;
+        }
+
         SetupPrefab();
+
         Transform itemTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
 
         ItemArmor item = itemTransform.GetComponent<ItemArmor>();
+
         Item.RecordEnemy(item);
 
         return item;

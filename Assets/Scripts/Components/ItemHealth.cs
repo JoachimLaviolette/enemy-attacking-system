@@ -26,10 +26,19 @@ public class ItemHealth : ItemBonus
     // Instantiate a new item health at the provided spawn position
     public static ItemHealth Create(Vector3 spawnPosition)
     {
+        Player player = GameAssets.mInstance.GetPlayer();
+
+        if (!player.IsAlive())
+        {
+            return null;
+        }
+
         SetupPrefab();
+
         Transform itemTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
 
         ItemHealth item = itemTransform.GetComponent<ItemHealth>();
+
         Item.RecordEnemy(item);
 
         return item;

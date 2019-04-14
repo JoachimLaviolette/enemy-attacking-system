@@ -22,10 +22,20 @@ public class EnemyBlue : Enemy
     // Create a new instance of enemy blue
     public static EnemyBlue Create(Vector3 spawnPosition)
     {
+        Player player = GameAssets.mInstance.GetPlayer();
+
+        if (!player.IsAlive())
+        {
+            return null;
+        }
+
         SetupPrefab();
+
         Transform enemyTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
 
         EnemyBlue enemy = enemyTransform.GetComponent<EnemyBlue>();
+        enemy.Setup(() => player.GetCurrentPosition());
+
         Enemy.RecordEnemy(enemy);
 
         return enemy;

@@ -30,75 +30,21 @@ public class GameHandler : MonoBehaviour
         this.SpawnItems();
     }
 
-    // Set the new target the provided enemy has to follow
-    private void SetEnemyTarget(Enemy enemy)
-    {
-        enemy.Setup(() => this.mPlayer.GetCurrentPosition());
-    }
-
     // Call periodic functions to spwan randomly new enemy instances
     // At specific interval times
     private void SpawnEnemies()
     {
-        InvokeRepeating("SpawnEnemyBlue", startEnemyBlue, timerEnemyBlue);
-        InvokeRepeating("SpawnEnemyGreen", startEnemyGreen, timerEnemyGreen);
-        InvokeRepeating("SpawnEnemyRed", startEnemyRed, timerEnemyRed);
-    }
-
-    // Instantiate an enemy blue randomly
-    private void SpawnEnemyBlue()
-    {
-        if (this.mPlayer.IsAlive())
-        {
-            EnemyBlue eBlue = EnemyBlue.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius);
-            this.SetEnemyTarget(eBlue);
-        }
-    }
-
-    // Instantiate an enemy green randomly
-    private void SpawnEnemyGreen()
-    {
-        if (this.mPlayer.IsAlive())
-        {
-            EnemyGreen eGreen = EnemyGreen.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius);
-            this.SetEnemyTarget(eGreen);
-        }
-    }
-
-    // Instantiate an enemy red randomly
-    private void SpawnEnemyRed()
-    {
-        if (this.mPlayer.IsAlive())
-        {
-            EnemyRed eRed = EnemyRed.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius);
-            this.SetEnemyTarget(eRed);
-        }
+        FunctionPeriodic.Create(() => EnemyBlue.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius), startEnemyBlue, timerEnemyBlue);
+        FunctionPeriodic.Create(() => EnemyGreen.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius), startEnemyGreen, timerEnemyGreen);
+        FunctionPeriodic.Create(() => EnemyRed.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDir() * radius), startEnemyRed, timerEnemyRed);
     }
 
     // Call periodic functions to spwan randomly new bonus items
     // At random interval times
     private void SpawnItems()
     {
-        InvokeRepeating("SpawnItemHealth", startItemHealth, timerItemHealth);
-        InvokeRepeating("SpawnItemArmor", startItemArmor, timerItemArmor);
-    }
-
-    // Instantiate a health item randomly
-    private void SpawnItemHealth()
-    {
-        if (this.mPlayer.IsAlive())
-        {
-            ItemHealth.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius);
-        }
-    }
-
-    // Instantiate a armor item randomly
-    private void SpawnItemArmor()
-    {
-        if (this.mPlayer.IsAlive())
-        {
-            ItemArmor.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius);
-        }
+        FunctionPeriodic.Create(() => ItemHealth.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius), startItemHealth, timerItemHealth);
+        FunctionPeriodic.Create(() => ItemArmor.Create(this.mPlayer.GetCurrentPosition() + Utils.GetRandomDirItemBonus() * radius), startItemArmor, timerItemArmor);
     }
 
     // Called every frame to update game state

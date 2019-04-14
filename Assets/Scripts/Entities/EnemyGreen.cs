@@ -15,7 +15,7 @@ public class EnemyGreen : Enemy
     }
 
     // Set up enemy grene prefab
-    private static void SetupPrefab()
+    protected new static void SetupPrefab()
     {
         mPrefab = GameAssets.mInstance.GetEnemyGreen();
     }
@@ -23,10 +23,20 @@ public class EnemyGreen : Enemy
     // Create a new instance of enemy green
     public static EnemyGreen Create(Vector3 spawnPosition)
     {
+        Player player = GameAssets.mInstance.GetPlayer();
+
+        if (!player.IsAlive())
+        {
+            return null;
+        }
+
         SetupPrefab();
+
         Transform enemyTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
 
         EnemyGreen enemy = enemyTransform.GetComponent<EnemyGreen>();
+        enemy.Setup(() => player.GetCurrentPosition());
+
         Enemy.RecordEnemy(enemy);
 
         return enemy;

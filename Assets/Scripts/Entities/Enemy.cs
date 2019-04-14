@@ -23,7 +23,7 @@ abstract public class Enemy : Entity
     }
 
     // Set up the focus target function
-    public void Setup(Func<Vector3> GetPlayerPositionFunc)
+    protected void Setup(Func<Vector3> GetPlayerPositionFunc)
     {
         this.GetPlayerPositionFunc = GetPlayerPositionFunc;
     }
