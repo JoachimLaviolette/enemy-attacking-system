@@ -13,10 +13,7 @@ public class FunctionPeriodic
 
         private void Update()
         {
-            if (this.onUpdate != null)
-            {
-                this.onUpdate();
-            }
+            this.onUpdate?.Invoke();
         }
     }
 
