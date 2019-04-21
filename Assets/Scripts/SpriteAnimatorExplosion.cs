@@ -5,7 +5,12 @@ using UnityEngine;
 
 public class SpriteAnimatorExplosion : SpriteAnimator
 {
-    private int counter = 0;
+    private int counter;
+
+    protected void Start()
+    {
+        this.counter = 0;
+    }
 
     // Called every frame to update the current explosion's sprite
     protected override void Update()

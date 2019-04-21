@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Entity, IMovable
+public class Player : Entity, IMovable, IShootable
 { 
     // Player score
     private int mScore;
@@ -34,7 +34,7 @@ public class Player : Entity, IMovable
     private void Update()
     {
         this.HandleMovements();
-        this.HandleActions();
+        this.HandleShooting();
     }
 
     // Set up player properties
@@ -87,44 +87,14 @@ public class Player : Entity, IMovable
         Vector3 moveDir = new Vector3(moveX, moveY).normalized;
         this.lastMoveDir = moveDir;
         transform.position += moveDir * this.mSpeed * Time.deltaTime;
-
-        //this.HandleAnimations(moveX == 0 && moveY == 0);
-    }
-    
-    // Handle player animation
-    private void HandleAnimations(bool isIdle)
-    {
-        if (!isIdle)
-        {
-            this.PlayMovingAnimation();
-        }
-        else
-        {
-            this.PlayIdleAnimation();
-        }
     }
 
-    // Play moving animation
-    private void PlayMovingAnimation()
-    {
-        this.mSpriteRenderer.sprite = GameAssets.mInstance.GetPlayerSprite(PLAYER_MOVING);
-    }
-
-    // Play idle animation
-    private void PlayIdleAnimation()
-    {
-        this.mSpriteRenderer.sprite = GameAssets.mInstance.GetPlayerSprite(PLAYER_IDLE);
-    }
-
-    // Handle player's actions
-    private void HandleActions()
+    // Handle player's shooting actions
+    public void HandleShooting()
     {
         // If mouse's left button is pressed
         if (Input.GetMouseButtonDown(0))
         {
-            // Attack the pointed enemy
-            // this.AttackEnemy();
-
             // Launch one basic particle
             this.LaunchParticle(Particle.PARTICLE_BASIC);
         }
@@ -151,7 +121,7 @@ public class Player : Entity, IMovable
 
     // Damage the player
     // Override the super method to take in account the armor system
-    public override void Damage(float damages)
+    public override void Damage(int damages, bool isCritical)
     {
         // If the player has an armor
         // Damage his armor
@@ -163,23 +133,11 @@ public class Player : Entity, IMovable
         }
 
         // Otherwise damage the player
-        base.Damage(damages);
-    }
-
-    // Attack the pointed enemy (if any)
-    private void AttackEnemy()
-    {
-        // Check if the mouse position points an enemy
-        Enemy enemy = Enemy.IsEnemyAt(Utils.GetWorldPosition((Input.mousePosition)));
-
-        if (enemy)
-        {
-            enemy.Damage(5f);
-        }
+        base.Damage(damages, isCritical);
     }
 
     // Launch a particle in the direction pointed by the mouse cursor
-    private void LaunchParticle(int particleType)
+    public void LaunchParticle(int particleType)
     {
         Vector3 mouseWorldPosition = Utils.GetWorldPosition(Input.mousePosition);
 
@@ -188,14 +146,14 @@ public class Player : Entity, IMovable
             case Particle.PARTICLE_CANON:
                 if (this.mCanonMunitions > 0)
                 {
-                    ParticleCanon.Create(mouseWorldPosition);
+                    ParticleCanon.Create(mouseWorldPosition, this);
                     this.mCanonMunitions--;
                     this.CancelReloading();
                 }
 
                 return;
             default:
-                Particle.Create(mouseWorldPosition);
+                Particle.Create(mouseWorldPosition, this);
 
                 return;
         }

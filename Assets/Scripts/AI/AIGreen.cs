@@ -14,7 +14,7 @@ public class AIGreen : AI, IMovable, IShootable
 
     public void HandleMovements()
     {
-        Vector3 playerPosition = mPlayer.GetCurrentPosition();
+        Vector3 playerPosition = this.mPlayer.GetCurrentPosition();
         playerPosition.z = this.mEnemy.transform.position.z;
         Vector3 enemyPosition = playerPosition;
         Vector3 enemyMoveDir = (playerPosition - this.mEnemy.transform.position).normalized;
@@ -39,9 +39,28 @@ public class AIGreen : AI, IMovable, IShootable
         }
     }
 
+    // Handle AI's shooting actions
     public void HandleShooting()
     {
+        // Launch one basic particle
+        this.LaunchParticle(Particle.PARTICLE_BASIC);
+    }
 
+    // Launch a particle in the direction of the player
+    public void LaunchParticle(int particleType)
+    {
+        if (Random.Range(0f, 100f) < .5f)
+        {
+            Vector3 playerPosition = this.mPlayer.GetCurrentPosition();
+
+            switch (particleType)
+            {
+                case Particle.PARTICLE_BASIC:
+                    Particle.Create(playerPosition, this.mEnemy);
+
+                    return;
+            }
+        }
     }
 
     // Adjust the position of the enemy if about to collapse a particle
@@ -52,7 +71,7 @@ public class AIGreen : AI, IMovable, IShootable
         {
             float factor;
 
-            while (Particle.IsParticleAt(newPosition, .5f))
+            while (Particle.IsParticleAt(newPosition, .5f, this.mEnemy))
             {
                 if (Random.Range(0, 2) > 0)
                 {

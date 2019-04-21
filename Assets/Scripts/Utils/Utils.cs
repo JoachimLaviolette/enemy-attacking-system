@@ -35,15 +35,17 @@ public class Utils : MonoBehaviour
     }
 
     // Get the shooting position according to the player
-    public static Vector3 GetShootPosition()
+    public static Vector3 GetShootPosition(Entity entity)
     {
-        Vector3 shootPosition = Utils.GetSpriteSize(GameAssets.mInstance.GetPlayer().gameObject);
+        /*Vector3 shootPosition = Utils.GetSpriteSize(entity.gameObject);
         shootPosition.x = 0f;
         shootPosition.y /= 2f;
         shootPosition.z = 0;
-        shootPosition += GameAssets.mInstance.GetPlayer().GetCurrentPosition();
+        shootPosition += entity.GetCurrentPosition();
 
-        return shootPosition;
+        return shootPosition;*/
+
+        return entity.GetCurrentPosition();
     }
 
     // Return the size of the sprite of the game object

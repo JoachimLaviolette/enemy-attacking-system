@@ -632,7 +632,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 799386138}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fcbbfcad241efab478822ab14d2d91ce, type: 3}
+  m_Script: {fileID: 11500000, guid: 5498d06b559e436479d3df3e3d3c5c10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &810498277
@@ -795,6 +795,8 @@ MonoBehaviour:
   pf_ItemArmor: {fileID: 8285104, guid: 6f6e0859a52022546a59461b048144a7, type: 3}
   pf_Particle: {fileID: 8613513097081397464, guid: 0e36612f3356bf446a870b7a27cd0703,
     type: 3}
+  pf_Particle_Enemy: {fileID: 5848190630124080927, guid: b6d8293d147732941997c6456744ce96,
+    type: 3}
   pf_ParticleCanon: {fileID: 3526345174440454774, guid: dd1a410945398724f8e60b8de25b0d6e,
     type: 3}
   pf_ParticleExplosion: {fileID: 1338004739, guid: 497aa6efd09a8e54a980b72807fa9b95,
@@ -824,6 +826,10 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 98e4159dc10e5104c832969416b1e53e, type: 3}
   - {fileID: 21300000, guid: f4a0d886bbaac994ab90b9bbbba2e4e2, type: 3}
   - {fileID: 21300000, guid: 884c2ea95ba33ce478824063be8f88f1, type: 3}
+  sprite_Particle_Enemy:
+  - {fileID: 21300000, guid: a0c1065d952a5b14ab4d0d3e251c3552, type: 3}
+  - {fileID: 21300000, guid: 62cbbd5b755a876479c9216d978d109e, type: 3}
+  - {fileID: 21300000, guid: 687fed862750836459594057f64a977f, type: 3}
 --- !u!4 &933282351
 Transform:
   m_ObjectHideFlags: 0

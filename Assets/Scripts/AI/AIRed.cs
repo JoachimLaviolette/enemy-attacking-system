@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class AIRed : AI, IMovable, IShootable, IDefendable
 {
+    private float shieldTimer = 0f;
+
     public AIRed(Enemy enemy) : base(enemy) { }
+
     public override void Update()
     {
         this.HandleMovements();
@@ -14,7 +17,7 @@ public class AIRed : AI, IMovable, IShootable, IDefendable
 
     public void HandleMovements()
     {
-        Vector3 playerPosition = mPlayer.GetCurrentPosition();
+        Vector3 playerPosition = this.mPlayer.GetCurrentPosition();
         playerPosition.z = this.mEnemy.transform.position.z;
         Vector3 enemyPosition = playerPosition;
         Vector3 enemyMoveDir = (playerPosition - this.mEnemy.transform.position).normalized;
@@ -39,40 +42,68 @@ public class AIRed : AI, IMovable, IShootable, IDefendable
         }
     }
 
+    // Handle AI's shooting actions
     public void HandleShooting()
     {
-        
+        // Launch one basic particle
+        this.LaunchParticle(Particle.PARTICLE_BASIC);
     }
 
+    // Launch a particle in the direction of the player
+    public void LaunchParticle(int particleType)
+    {
+        // In 2% of the cases, the AI launches particles
+        if (Random.Range(0, 100) < 2)
+        {
+            Vector3 playerPosition = this.mPlayer.GetCurrentPosition();
+
+            switch (particleType)
+            {
+                case Particle.PARTICLE_BASIC:
+                    Particle.Create(playerPosition, this.mEnemy);
+
+                    return;
+            }
+        }
+    }
+
+    // Handle AI's defense actions
     public void HandleDefense()
     {
-        
+        // In 85% of the cases, the AI turns on enemy's shield
+        if (Random.Range(0, 100) < 85)
+        {
+            if (Particle.IsParticleAt(this.mEnemy.GetCurrentPosition(), .5f, this.mEnemy))
+            {
+                ((EnemyRed)this.mEnemy).TurnOnShield();
+            }
+        }
     }
 
     // Adjust the position of the enemy if about to collapse a particle
     protected override void CheckNewPosition(ref Vector3 newPosition)
     {
         // In 30% of the cases, we try to make the enemy dodge
-        if (Random.Range(0, 100) < 20)
+        if (Random.Range(0, 100) < 30)
         {
             float factor;
 
-            while (Particle.IsParticleAt(newPosition, .5f))
+            if(Particle.IsParticleAt(newPosition, .5f, this.mEnemy))
             {
-                if (Random.Range(0, 2) > 0)
+                if (Random.Range(0, 100) < 30)
                 {
                     return;
                 }
 
-                // Dodge again in 2/3 of the cases
+                // The direction the enemy dodges towards is random
                 factor = -.1f;
 
-                if (Random.Range(0, 1) > 0)
+                if (Random.Range(0, 100) > 75)
                 {
                     factor = Mathf.Abs(factor);
                 }
 
-                newPosition += new Vector3(factor, factor);
+                newPosition += new Vector3(factor, factor);                     
             }
         }
     }

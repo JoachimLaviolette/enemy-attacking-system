@@ -12,9 +12,14 @@ public class GameAssets : MonoBehaviour
     public EnemyRed pf_EnemyRed;
     public ItemHealth pf_ItemHealth;
     public ItemArmor pf_ItemArmor;
-    public Particle pf_Particle, pf_ParticleCanon, pf_ParticleExplosion;
+    public Particle pf_Particle, pf_Particle_Enemy, pf_ParticleCanon, pf_ParticleExplosion;
     public DamageNotification pf_DamageNotification;
-    public Sprite[] sprite_Player, sprite_Health, sprite_Armor, sprite_ParticleCanon;
+    public Sprite[] sprite_Health, sprite_Armor, sprite_ParticleCanon;
+    [SerializeField] private Sprite[] sprite_Particle_Enemy;
+
+    private const int PARTICLE_ENEMY_BLUE = 0;
+    private const int PARTICLE_ENEMY_GREEN = 1;
+    private const int PARTICLE_ENEMY_RED = 2;
 
     private void Awake()
     {
@@ -61,10 +66,12 @@ public class GameAssets : MonoBehaviour
         return this.pf_ItemArmor;
     }
 
-    public Particle GetParticle(int particleType)
+    public Particle GetParticle(int particleType, Entity hostEntity = null)
     {
         switch (particleType)
         {
+            case Particle.PARTICLE_BASIC_ENEMY:
+                return this.SetupParticle_Enemy(hostEntity);
             case Particle.PARTICLE_CANON:
                 return this.pf_ParticleCanon;
             case Particle.PARTICLE_EXPLOSION:
@@ -72,16 +79,6 @@ public class GameAssets : MonoBehaviour
             default:
                 return this.pf_Particle;
         }
-    }
-
-    public Sprite[] GetPlayerSprites()
-    {
-        return this.sprite_Player;
-    }
-
-    public Sprite GetPlayerSprite(int playerState)
-    {
-        return this.sprite_Player[playerState];
     }
 
     public Sprite[] GetHealthSprites()
@@ -112,5 +109,27 @@ public class GameAssets : MonoBehaviour
     public DamageNotification GetDamageNotification()
     {
         return this.pf_DamageNotification;
+    }
+
+    private Sprite GetParticle_EnemySprite(int particleEnemyType)
+    {
+        return this.sprite_Particle_Enemy[particleEnemyType];
+    }
+
+    private Particle SetupParticle_Enemy(Entity hostEntity)
+    {
+        this.pf_Particle_Enemy.GetComponent<SpriteRenderer>().sprite = this.GetParticle_EnemySprite(PARTICLE_ENEMY_BLUE);
+
+        if (hostEntity.GetType() == this.GetEnemyGreen().GetType())
+        {
+            this.pf_Particle_Enemy.GetComponent<SpriteRenderer>().sprite = this.GetParticle_EnemySprite(PARTICLE_ENEMY_GREEN);
+        }
+
+        if (hostEntity.GetType() == this.GetEnemyRed().GetType())
+        {
+            this.pf_Particle_Enemy.GetComponent<SpriteRenderer>().sprite = this.GetParticle_EnemySprite(PARTICLE_ENEMY_RED);
+        }
+
+        return this.pf_Particle_Enemy;
     }
 }

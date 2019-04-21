@@ -8,8 +8,8 @@ public class EnemyGreen : Enemy
     protected void Start()
     {
         this.mHealth = 20f;
-        this.mSpeed = 1.5f;
-        this.mDamages = 7.5f;
+        this.mSpeed = 1.25f;
+        this.mDamages = 7;
         this.mReward = 10;
         this.mAI = new AIGreen(this);
     }

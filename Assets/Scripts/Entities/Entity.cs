@@ -27,11 +27,15 @@ public abstract class Entity : MonoBehaviour, IDamagable, IDestroyable
     }
 
     // Damage the entity
-    public virtual void Damage(float damages)
+    public virtual void Damage(int damages, bool isCritical)
     {
+        // Damage the entity
         this.mHealth -= damages;
 
-        // If the entity has no more health, kill it
+        // Create the damage notification
+        DamageNotification.Create(this.GetCurrentPosition(), damages, isCritical);
+
+        // If the entity has no more health, destroy it
         if (this.mHealth <= 0f)
         {
             this.Destroy();

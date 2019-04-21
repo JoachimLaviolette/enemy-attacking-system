@@ -9,7 +9,7 @@ public class EnemyBlue : Enemy
     {
         this.mHealth = 10f;
         this.mSpeed = 1f;
-        this.mDamages = 5f;
+        this.mDamages = 5;
         this.mReward = 5;
         this.mAI = new AIBlue(this);
     }

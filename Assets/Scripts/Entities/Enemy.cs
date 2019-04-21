@@ -6,7 +6,7 @@ using UnityEngine;
 abstract public class Enemy : Entity, ICollapsable
 {
     protected static Enemy mPrefab = null;
-    protected float mDamages;
+    protected int mDamages;
     protected int mReward;
     protected Vector3 playerPosition;
     protected Vector3 enemyPosition;
@@ -56,17 +56,19 @@ abstract public class Enemy : Entity, ICollapsable
         if (distance <= 0f)
         {
             // Damage the player
-            GameAssets.mInstance.GetPlayer().Damage(this.mDamages);
+            bool isCritical = false;
+            Utils.ApplyCritical(ref this.mDamages, ref isCritical);
+            GameAssets.mInstance.GetPlayer().Damage(this.mDamages, isCritical);
 
             // Then automatically destroy the enemy after the collision
             this.Destroy();
         }
     }
 
-    // Damage the player
-    public override void Damage(float damages)
+    // Damage the enemy
+    public override void Damage(int damages, bool isCritical)
     {
-        base.Damage(damages);
+        base.Damage(damages, isCritical);
 
         if (!this.IsAlive())
         {

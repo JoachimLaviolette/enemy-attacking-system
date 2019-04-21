@@ -30,7 +30,7 @@ public class ParticleExplosion : Particle
             bool isCritical = false;
             Utils.ApplyCritical(ref this.mDamages, ref isCritical);
             DamageNotification.Create(enemy.GetCurrentPosition(), this.mDamages, isCritical);
-            enemy.Damage(this.mDamages);
+            enemy.Damage(this.mDamages, isCritical);
         }
     }
 
@@ -50,7 +50,7 @@ public class ParticleExplosion : Particle
     }
 
     // Create a new explosion instance
-    public new static ParticleExplosion Create(Vector3 spawnPosition)
+    public static ParticleExplosion Create(Vector3 spawnPosition)
     {
         SetupPrefab();
 

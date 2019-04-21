@@ -13,7 +13,7 @@ public class AIBlue : AI, IMovable
 
     public void HandleMovements()
     {
-        Vector3 playerPosition = mPlayer.GetCurrentPosition();
+        Vector3 playerPosition = this.mPlayer.GetCurrentPosition();
         playerPosition.z = this.mEnemy.transform.position.z;
         Vector3 enemyPosition = playerPosition;
         Vector3 enemyMoveDir = (playerPosition - this.mEnemy.transform.position).normalized;

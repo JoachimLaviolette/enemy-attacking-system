@@ -5,4 +5,5 @@ using UnityEngine;
 internal interface IShootable
 {
     void HandleShooting();
+    void LaunchParticle(int particleType);
 }

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1055848426}
   - component: {fileID: 1055848425}
   - component: {fileID: 1055848427}
+  - component: {fileID: 4694190152966269245}
   m_Layer: 0
   m_Name: EnemyRed
   m_TagString: EnemyRed
@@ -81,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d80c6c3e6aa5934418bb2a90e9e21c76, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b30345f97fc346f4ca2ab30a701504c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,3 +93,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4694190152966269245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1055848424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63f4558810149a4d86270e641e2e998, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frames:
+  - {fileID: 21300000, guid: 4bd8c21c0ac351e468e8ecc03b961e10, type: 3}
+  - {fileID: 21300000, guid: 59246862eccca0e40ac9f216947b4e6e, type: 3}
+  - {fileID: 21300000, guid: 6dcf20b351e9b7646bca70412380f137, type: 3}
+  mBasicSprite: {fileID: 21300000, guid: b30345f97fc346f4ca2ab30a701504c6, type: 3}

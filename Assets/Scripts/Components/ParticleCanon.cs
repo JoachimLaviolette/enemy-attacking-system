@@ -18,14 +18,14 @@ public class ParticleCanon : Particle
     }
 
     // Create a new instance of particle
-    public new static ParticleCanon Create(Vector3 targetPosition)
+    public new static ParticleCanon Create(Vector3 targetPosition, Entity hostEntity)
     {
         SetupPrefab();
 
-        Vector3 spawnPosition = Utils.GetShootPosition();
+        Vector3 spawnPosition = Utils.GetShootPosition(hostEntity);
         Transform particleTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
         ParticleCanon particle = particleTransform.GetComponent<ParticleCanon>();
-        particle.Setup(targetPosition);
+        particle.Setup(targetPosition, hostEntity);
         Particle.RecordParticle(particle);
 
         return particle;

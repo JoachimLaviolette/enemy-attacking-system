@@ -4,14 +4,34 @@ using UnityEngine;
 
 public class EnemyRed : Enemy
 {
+    private SpriteAnimatorEnemyShield spriteAnimatorEnemyShield;
+    private bool isShieldActivated;
+
+    private void Awake()
+    {
+        this.spriteAnimatorEnemyShield = this.GetComponent<SpriteAnimatorEnemyShield>();
+        this.spriteAnimatorEnemyShield.SetEnemy(this);
+    }
+
     // Set up enemy red properties
     protected void Start()
     {
         this.mHealth = 30f;
-        this.mSpeed = 2f;
-        this.mDamages = 10f;
+        this.mSpeed = 1.5f;
+        this.mDamages = 10;
         this.mReward = 20;
         this.mAI = new AIRed(this);
+        this.isShieldActivated = false;
+    }
+
+    // Damage the enemy
+
+    public override void Damage(int damages, bool isCritical)
+    {
+        if (!this.isShieldActivated)
+        {
+            base.Damage(damages, isCritical);
+        }
     }
 
     // Set up enemy red prefab
@@ -40,5 +60,27 @@ public class EnemyRed : Enemy
         Enemy.RecordEnemy(enemy);
 
         return enemy;
+    }
+
+    // Turn on the enemy's shield
+    public void TurnOnShield()
+    {
+        this.isShieldActivated = true;
+
+        // Play turned-on shield animation
+        this.PlayTurnedOnShieldAnimation();
+
+    }
+
+    // Turn off the enemy's shield
+    public void TurnOffShield()
+    {
+        this.isShieldActivated = false;
+    }
+
+    // Play the animation when the enemy's shield is activated
+    private void PlayTurnedOnShieldAnimation()
+    {
+        spriteAnimatorEnemyShield.PlayAnimation();
     }
 }
