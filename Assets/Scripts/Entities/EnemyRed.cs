@@ -28,10 +28,13 @@ public class EnemyRed : Enemy
 
     public override void Damage(int damages, bool isCritical)
     {
-        if (!this.isShieldActivated)
+        if (this.isShieldActivated)
         {
-            base.Damage(damages, isCritical);
+            damages = 0;
+            isCritical = false;
         }
+
+        base.Damage(damages, isCritical);
     }
 
     // Set up enemy red prefab

@@ -24,10 +24,15 @@ public class DamageNotification : MonoBehaviour
     // Const
     private const int FONT_SIZE_NORMAL = 3;
     private const int FONT_SIZE_CRITICAL = 4;
+
+    private const string FONT_COLOR_BODY_NO_DAMAGE = "C1C1C1";
     private const string FONT_COLOR_BODY_NORMAL = "F4F59F";
     private const string FONT_COLOR_BODY_CRITICAL = "F67580";
+
+    private const string FONT_COLOR_OUTLINE_NO_DAMAGE = "757575";
     private const string FONT_COLOR_OUTLINE_NORMAL = "EE911C";
     private const string FONT_COLOR_OUTLINE_CRITICAL = "A41915";
+
     private const float FONT_DISAPPEAR_TIME_MAX = 1f;
 
     private void Awake()
@@ -36,10 +41,10 @@ public class DamageNotification : MonoBehaviour
     }
 
     // Set up the damage notification properties
-    private void Setup(float damages, bool isCritical)
+    private void Setup(int damages, bool isCritical)
     {
         this.mTextMesh.SetText(damages.ToString());
-        this.SetupFont(isCritical);
+        this.SetupFont(damages, isCritical);
         sortingOrder++;
         this.mTextMesh.sortingOrder = sortingOrder;
         this.mSpeed = 2f;
@@ -49,8 +54,17 @@ public class DamageNotification : MonoBehaviour
     }
 
     // Set up the notification font
-    private void SetupFont(bool isCritical)
+    private void SetupFont(int damages, bool isCritical)
     {
+        if (damages == 0)
+        {
+            this.mTextMesh.fontSize = FONT_SIZE_NORMAL;
+            this.mTextColor = this.mTextMesh.color = this.mTextMesh.faceColor = Utils.GetColorFromString(FONT_COLOR_BODY_NO_DAMAGE);
+            this.mTextMesh.outlineColor = Utils.GetColorFromString(FONT_COLOR_OUTLINE_NO_DAMAGE);
+
+            return;
+        }
+
         this.mTextMesh.fontSize = FONT_SIZE_NORMAL;
         this.mTextColor = this.mTextMesh.color = this.mTextMesh.faceColor = Utils.GetColorFromString(FONT_COLOR_BODY_NORMAL);
         this.mTextMesh.outlineColor = Utils.GetColorFromString(FONT_COLOR_OUTLINE_NORMAL);
@@ -120,11 +134,12 @@ public class DamageNotification : MonoBehaviour
     }
 
     // Create a damage notification
-    public static DamageNotification Create(Vector3 spawnPosition, float damages, bool isCritical)
+    public static DamageNotification Create(Vector3 spawnPosition, int damages, bool isCritical)
     {
         SetupPrefab();
 
         Transform damageNotificationTransform = Instantiate(mPrefab.transform, spawnPosition, Quaternion.identity);
+
         DamageNotification damageNotification = damageNotificationTransform.GetComponent<DamageNotification>();
         damageNotification.Setup(damages, isCritical);
 

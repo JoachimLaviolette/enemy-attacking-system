@@ -22,9 +22,9 @@ public class Particle : MonoBehaviour, IMovable, IDestroyable, ICollapsable
     // Set up particle's properties
     public void Setup(Vector3 targetPosition, Entity hostEntity)
     {
-        this.mDamages = Random.Range(3, 10);
         this.mHostEntity = hostEntity;
         this.fromPlayer = mHostEntity.GetType() == GameAssets.mInstance.mPlayer.GetType();
+        this.SetDamages();
         this.SetSpeed();
         this.SetTargetPosition(targetPosition);
         this.SetMoveDir();
@@ -41,6 +41,13 @@ public class Particle : MonoBehaviour, IMovable, IDestroyable, ICollapsable
     private void OnBecameInvisible()
     {
         this.Destroy();
+    }
+
+    // Set particle damages
+    private void SetDamages()
+    {
+        this.mDamages = this.fromPlayer ? Random.Range(3, 10) : Random.Range(1, 4);
+
     }
 
     // Set particle speed

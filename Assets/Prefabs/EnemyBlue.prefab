@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1832635993}
   - component: {fileID: 1832635992}
   - component: {fileID: 1832635994}
-  - component: {fileID: 8403871228845838902}
   m_Layer: 0
   m_Name: EnemyBlue
   m_TagString: EnemyBlue
@@ -93,17 +92,3 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8403871228845838902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1832635991}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d63f4558810149a4d86270e641e2e998, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  frames: []
-  mBasicSprite: {fileID: 0}
